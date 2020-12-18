@@ -11,13 +11,12 @@ import { BlogContext } from "../contexts/Blog.context";
 import { Feather } from "@expo/vector-icons";
 
 const IndexScreen = ({ navigation: { navigate } }) => {
-  const { state, addBlogPost, deleteBlogPost } = useContext(BlogContext);
+  const { state, deleteBlogPost } = useContext(BlogContext);
 
   const { viewStyle, titleStyle, iconStyle } = styles;
 
   return (
     <View>
-      <Button title="Add Post" onPress={addBlogPost} />
       <FlatList
         data={state}
         keyExtractor={(blogPost) => blogPost.title}
@@ -46,6 +45,16 @@ const IndexScreen = ({ navigation: { navigate } }) => {
       />
     </View>
   );
+};
+
+IndexScreen.navigationOptions = ({ navigation: { navigate } }) => {
+  return {
+    headerRight: () => (
+      <TouchableOpacity onPress={() => navigate("Create")}>
+        <Feather name="plus" size={30} />
+      </TouchableOpacity>
+    ),
+  };
 };
 
 const styles = StyleSheet.create({
