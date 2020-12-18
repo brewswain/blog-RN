@@ -7,8 +7,14 @@ const addBlogPost = (dispatch) => {
   };
 };
 
-export const { Context, Provider } = createDataContext(
+const deleteBlogPost = (dispatch) => {
+  return (id) => {
+    dispatch({ type: "delete_blogpost", payload: id });
+  };
+};
+
+export const { Context: BlogContext, Provider } = createDataContext(
   blogReducer,
-  { addBlogPost },
+  { addBlogPost, deleteBlogPost },
   []
 );

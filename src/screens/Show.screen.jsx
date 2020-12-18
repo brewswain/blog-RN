@@ -7,7 +7,7 @@ const ShowScreen = () => {
 
   return (
     <View>
-      <Text>Boilerplate</Text>
+      <Text>Show Screen</Text>
     </View>
   );
 };

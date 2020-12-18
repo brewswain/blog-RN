@@ -1,28 +1,68 @@
 import React, { useContext } from "react";
+import {
+  Button,
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { BlogContext } from "../contexts/Blog.context";
+import { Feather } from "@expo/vector-icons";
 
-import { Button, FlatList, StyleSheet, Text, View } from "react-native";
-import { Context } from "../contexts/Blog.context";
+const IndexScreen = ({ navigation: { navigate } }) => {
+  const { state, addBlogPost, deleteBlogPost } = useContext(BlogContext);
 
-const IndexScreen = () => {
-  const { state, addBlogPost } = useContext(Context);
-
-  const {} = styles;
+  const { viewStyle, titleStyle, iconStyle } = styles;
 
   return (
     <View>
-      <Text>Index</Text>
       <Button title="Add Post" onPress={addBlogPost} />
       <FlatList
         data={state}
         keyExtractor={(blogPost) => blogPost.title}
         renderItem={({ item }) => {
-          return <Text>{item.title}</Text>;
+          return (
+            <TouchableOpacity
+              onPress={() => {
+                navigate("Show", { id: item.id });
+              }}
+            >
+              <View style={viewStyle}>
+                <Text style={titleStyle}>
+                  {item.title} - {item.id}
+                </Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    deleteBlogPost(item.id);
+                  }}
+                >
+                  <Feather style={iconStyle} name="trash" />
+                </TouchableOpacity>
+              </View>
+            </TouchableOpacity>
+          );
         }}
       />
     </View>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  viewStyle: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    borderBottomWidth: 1,
+    borderColor: "gray",
+  },
+  titleStyle: {
+    fontSize: 18,
+  },
+  iconStyle: {
+    fontSize: 25,
+  },
+});
 
 export default IndexScreen;
