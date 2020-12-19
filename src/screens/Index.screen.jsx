@@ -1,6 +1,5 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import {
-  Button,
   FlatList,
   StyleSheet,
   Text,
@@ -10,10 +9,25 @@ import {
 import { BlogContext } from "../contexts/Blog.context";
 import { Feather } from "@expo/vector-icons";
 
-const IndexScreen = ({ navigation: { navigate } }) => {
-  const { state, deleteBlogPost } = useContext(BlogContext);
+const IndexScreen = ({ navigation: { navigate, addListener } }) => {
+  const { state, getAllBlogPosts, deleteBlogPost } = useContext(BlogContext);
 
   const { viewStyle, titleStyle, iconStyle } = styles;
+
+  useEffect(() => {
+    getAllBlogPosts();
+    console.log("updated", state.length);
+
+    // We're using the dependency array to
+    // make it update whenever our blogposts updates, but this
+    //is a new approach so i'm keeping it here for now.
+    // const listener = addListener("didFocus", () => {
+    //   getAllBlogPosts();
+    // });
+    // return () => {
+    //   listener.remove();
+    // };
+  }, [state.length]);
 
   return (
     <View>

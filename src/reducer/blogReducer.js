@@ -1,12 +1,12 @@
 const blogReducer = (state, action) => {
   switch (action.type) {
+    case "get_blogposts":
+      return action.payload;
+
     case "add_blogpost":
       return [
         ...state,
         {
-          // chance of dupes, so keep that in mind
-
-          id: Math.floor(Math.random() * 99999),
           title: action.payload.title,
           content: action.payload.content,
         },
